@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agate Beach Golf Course | Newport, OR</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            background-color: #f9f9f9;
+        }
+
+        /* --- BLUE THEME COLORS --- */
+        :root {
+            --primary-dark: #002855;   /* Deep Navy Blue */
+            --primary-medium: #0056b3; /* Standard Blue */
+            --accent-blue: #4cabff;    /* Bright Sky Blue */
+            --cream-text: #f8f9fa;     /* Off-white text */
+            --white: #ffffff;
+            --light-gray: #f4f4f4;
+            --dark-gray: #2c3e50;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 40, 85, 0.98);
+            padding: 0 2rem;
+            min-height: 70px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        /* LOGO DESIGN */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--accent-blue);
+        }
+
+        .logo-text {
+            color: var(--cream-text);
+            font-family: 'Georgia', serif;
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .logo-main {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .logo-sub {
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            color: var(--accent-blue);
+        }
+
+        /* MENU LINKS (DESKTOP) */
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--cream-text);
+            text-decoration: none;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:not(.portal-btn):hover {
+            color: var(--accent-blue);
+        }
+
+        /* BOOK TEE TIME BUTTON */
+        .portal-btn {
+            background-color: var(--accent-blue);
+            color: var(--primary-dark) !important;
+            padding: 0.5rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 700 !important;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .portal-btn:hover {
+            background-color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* --- HAMBURGER MENU STYLES --- */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--cream-text);
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* --- MOBILE MEDIA QUERY --- */
+        @media screen and (max-width: 900px) {
+            body { overflow-x: hidden; }
+            .logo-main { font-size: 1rem; }
+            .logo-sub { font-size: 0.5rem; }
+
+            .nav-links {
+                position: absolute;
+                right: 0px;
+                height: calc(100vh - 70px);
+                top: 70px;
+                background-color: var(--primary-dark);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                width: 100%;
+                transform: translateX(100%);
+                transition: transform 0.4s ease-in-out;
+                padding-top: 2rem;
+                gap: 2rem;
+            }
+
+            .nav-links li { opacity: 0; }
+            .nav-links a { font-size: 1.2rem; }
+            .hamburger { display: block; }
+        }
+
+        .nav-active { transform: translateX(0%); }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+
+        /* --- ANIMATED HERO SECTION --- */
+        .hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero-bg-anim {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i0.wp.com/agatebeachgolf.net/wp-content/uploads/2022/03/FromTheAir1-e1658296604391.jpg?fit=2500%2C1143&ssl=1');
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+            animation: breathe 25s ease-in-out infinite alternate; 
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.35); z-index: 1;
+        }
+
+        @keyframes breathe {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15); }
+        }
+
+        .parallax-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 2rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            margin-bottom: 1rem;
+            border-bottom: 3px solid var(--accent-blue);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+        }
+
+        /* --- SECTIONS GENERAL --- */
+        .section-content {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2.section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 3rem;
+            position: relative;
+            text-transform: uppercase;
+        }
+
+        h2.section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent-blue);
+            margin: 1rem auto 0;
+        }
+
+        /* --- RATES TABLE --- */
+        .rates-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .rate-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+            border-top: 5px solid var(--primary-medium);
+        }
+
+        .rate-card:hover { transform: translateY(-5px); }
+
+        .rate-header { padding: 1.5rem; background: var(--light-gray); text-align: center; }
+        .rate-header h3 { font-size: 1.4rem; color: var(--primary-dark); margin-bottom: 0.5rem; }
+        .rate-header span { font-size: 0.9rem; color: #666; font-style: italic; }
+
+        .rate-body { padding: 1.5rem; }
+        .price-row { display: flex; justify-content: space-between; padding: 0.8rem 0; border-bottom: 1px solid #eee; font-size: 1.1rem; }
+        .price-val { font-weight: 700; color: var(--dark-gray); }
+
+        .card-twilight { border-top-color: var(--accent-blue); }
+        .card-rentals { border-top-color: var(--primary-dark); }
+
+        .rates-disclaimer {
+            text-align: center; margin-top: 2rem; color: var(--primary-dark);
+            background: #e3f2fd; padding: 1rem; border-radius: 4px;
+            border-left: 4px solid var(--primary-medium);
+        }
+
+        /* --- PRO SHOP, COFFEE & LAYOUT --- */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .img-box {
+            width: 100%; height: 400px; background-color: #ddd;
+            border-radius: 8px; background-position: center; background-size: cover;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .text-box h3 { font-size: 2rem; margin-bottom: 1rem; color: var(--dark-gray); }
+        .text-box p { margin-bottom: 1.5rem; font-size: 1.1rem; }
+        
+        /* --- SCORECARD STYLES --- */
+        .scorecard-wrapper {
+            margin-top: 4rem; text-align: center; background: var(--white);
+            padding: 2rem; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .scorecard-container { display: flex; flex-direction: column; gap: 20px; align-items: center; }
+        .scorecard-img { width: 100%; max-width: 900px; height: auto; border-radius: 4px; border: 2px solid var(--primary-dark); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+        /* --- ABOUT US (FADING & OVERLAP) --- */
+        #about {
+            background-color: var(--white);
+            overflow: hidden; /* Ensure content doesn't spill */
+        }
+        
+        .about-split {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr; /* Video side is wider to allow overlap */
+            align-items: center;
+            position: relative;
+        }
+
+        .about-text {
+            position: relative;
+            z-index: 10;
+            padding: 2rem;
+            background: rgba(255,255,255,0.7); /* Subtle bg to ensure readability over video */
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            /* Negative margin to pull text over the video */
+            margin-left: -100px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .about-text h2, .about-text p, .stat-number {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .about-text p {
+            font-size: 1.25rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        /* FADING VIDEO CONTAINER */
+        .fading-video-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            /* Mask to create fade from solid (left) to transparent (right) */
+            -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%);
+            mask-image: linear-gradient(to right, black 50%, transparent 100%);
+        }
+
+        .about-video {
+            width: 100%;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: flex-start;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-box { text-align: center; }
+        .stat-number { font-size: 3rem; font-weight: 700; color: var(--primary-dark); display: block; font-style: italic; }
+        .stat-label { font-size: 1rem; font-weight: 400; color: var(--primary-medium); text-transform: uppercase; letter-spacing: 2px; }
+
+        /* --- CONTACT & MAP --- */
+        .contact-wrapper {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+            background: var(--white); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 8px; overflow: hidden;
+        }
+
+        .map-container iframe { width: 100%; height: 100%; min-height: 400px; border: 0; }
+        
+        .contact-info { 
+            padding: 3rem; 
+            background: var(--primary-dark); 
+            color: var(--cream-text);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .contact-info h3 { font-size: 2rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent-blue); display: inline-block; }
+        .contact-item { margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 1rem; font-size: 1.1rem; }
+        .contact-item i { color: var(--accent-blue); margin-top: 5px; }
+
+        /* FACEBOOK WIDGET */
+        .facebook-widget {
+            margin-top: 2rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* --- FOOTER --- */
+        footer { background: #1a1a1a; color: #888; text-align: center; padding: 2rem; margin-top: 0; }
+        
+        /* --- PARALLAX DIVIDER MIDDLE --- */
+        .parallax-divider {
+            position: relative;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+        .parallax-divider::after {
+            content: ''; position: absolute; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.4);
+        }
+
+        /* --- MEDIA QUERIES --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 2.2rem; }
+            .grid-2, .contact-wrapper { grid-template-columns: 1fr; }
+            
+            /* RESET ABOUT LAYOUT ON MOBILE */
+            .about-split { grid-template-columns: 1fr; gap: 2rem; }
+            .about-text { margin-left: 0; background: none; box-shadow: none; padding: 1rem 0; }
+            .fading-video-container { 
+                -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+                mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+            }
+            .about-text p { color: #555; } /* Reset text color for white bg */
+
+            .img-box { height: 250px; margin-bottom: 1rem; }
+            .text-box { order: 2 !important; }
+            .img-box { order: 1 !important; }
+            .parallax-divider { background-attachment: scroll; }
+            .stats-container { justify-content: space-around; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo-container">
+            <i class="fas fa-lighthouse logo-icon"></i> 
+            <div class="logo-text">
+                <span class="logo-main">Agate Beach</span>
+                <span class="logo-sub">GOLF COURSE</span>
+            </div>
+        </a>
+        
+        <div class="nav-links">
+            <a href="#layout">Course Layout</a>
+            <a href="#proshop">Pro Shop</a>
+            <a href="#rates">Golf Rates</a>
+            <a href="#coffee">Coffee Shop</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="https://foreupsoftware.com/index.php/booking/21987#/login" class="portal-btn" target="_blank">
+                <i class="fas fa-calendar-check"></i> Book a Tee Time
+            </a>
+        </div>
+
+        <div class="hamburger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-bg-anim"></div>
+        <div class="parallax-content">
+            <h1>WELCOME TO AGATE BEACH</h1>
+            <p>Experience the finest golf on the Oregon Coast.</p>
+        </div>
+    </header>
+
+    <section id="rates" class="section-content">
+        <h2 class="section-title">Golf Rates</h2>
+        <div class="rates-container">
+            <div class="rate-card">
+                <div class="rate-header">
+                    <h3><i class="fas fa-sun"></i> Greens Fees</h3>
+                    <span>7:00 am - 2:52 pm</span>
+                </div>
+                <div class="rate-body">
+                    <div class="price-row"><span>9 Holes</span><span class="price-val">$24</span></div>
+                    <div class="price-row"><span>18 Holes</span><span class="price-val">$42</span></div>
+                </div>
+            </div>
+            <div class="rate-card card-twilight">
+                <div class="rate-header">
+                    <h3><i class="fas fa-moon"></i> Twilight</h3>
+                    <span>3:00 pm - Dusk</span>
+                </div>
+                <div class="rate-body">
+                    <div class="price-row"><span>9 Holes</span><span class="price-val">$20</span></div>
+                    <div class="price-row"><span>18 Holes</span><span class="price-val">$32</span></div>
+                </div>
+            </div>
+            <div class="rate-card card-rentals">
+                <div class="rate-header">
+                    <h3><i class="fas fa-golf-cart"></i> Rentals</h3>
+                    <span>Carts & Clubs</span>
+                </div>
+                <div class="rate-body">
+                    <div class="price-row"><span>Golf Cart (9/18)</span><span class="price-val">$14 / $28</span></div>
+                    <div class="price-row"><span>Pull Cart (9/18)</span><span class="price-val">$3 / $5</span></div>
+                    <div class="price-row"><span>Club Rental (9/18)</span><span class="price-val">$8 / $12</span></div>
+                </div>
+            </div>
+            <div class="rate-card" style="border-top-color: #666;">
+                <div class="rate-header" style="color: #666;">
+                    <h3><i class="fas fa-bullseye"></i> Range Balls</h3>
+                    <span>Practice Area</span>
+                </div>
+                <div class="rate-body">
+                    <div class="price-row"><span>30 Balls</span><span class="price-val">$4</span></div>
+                    <div class="price-row"><span>75 Balls</span><span class="price-val">$8</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="rates-disclaimer">
+            <i class="fas fa-info-circle"></i> <strong>Note:</strong> Rates updated 12/2/2025. The Driving range is currently <strong>Closed</strong>.
+        </div>
+    </section>
+
+    <div class="parallax-divider" style="background-image: url('https://i0.wp.com/agatebeachgolf.net/wp-content/uploads/2022/06/full.jpg?fit=2500%2C1703&ssl=1');">
+        <div class="parallax-content">
+            <h2>"The Game of a Lifetime"</h2>
+        </div>
+    </div>
+
+    <section id="layout" class="section-content">
+        <div class="grid-2">
+            <div class="text-box">
+                <h2>Course Layout</h2>
+                <p>Agate Beach is a 3,002-yard, Par 36 course that offers a challenging yet accessible layout for all skill levels. Famous for our signature 8th hole, we provide a serene park-like setting protected by shore pines.</p>
+                <a href="#" class="portal-btn" style="background: var(--primary-dark); color: white !important;">View Layout Details</a>
+            </div>
+            <div class="img-box" style="background-image: url('https://i0.wp.com/agatebeachgolf.net/wp-content/uploads/2023/01/Agate-Beach-8.221024_1.jpg?resize=768%2C576&ssl=1'); background-size: contain; background-repeat: no-repeat; background-color: #fff;"></div>
+        </div>
+
+        <div class="scorecard-wrapper">
+            <h3 style="color: var(--primary-dark); margin-bottom: 1.5rem; font-size: 2rem; text-transform: uppercase;">Official Scorecard</h3>
+            <div class="scorecard-container">
+                <img src="https://i0.wp.com/agatebeachgolf.net/wp-content/uploads/2023/01/Agate-Beach-8.221024_2.jpg?resize=768%2C576&ssl=1" 
+                     alt="Agate Beach Golf Course Scorecard Back" 
+                     class="scorecard-img">
+            </div>
+        </div>
+    </section>
+
+    <section id="proshop" class="section-content" style="background: white;">
+        <div class="grid-2">
+            <div class="img-box" style="background-image: url('https://i0.wp.com/agatebeachgolf.net/wp-content/uploads/2022/06/ProShop2a1.jpg?fit=2500%2C1722&ssl=1');"></div> 
+            <div class="text-box">
+                <h2>The Pro Shop</h2>
+                <p>Fully stocked with the latest gear from top brands. Whether you need a new driver, a box of balls, or stylish apparel, our friendly staff is here to help you get equipped.</p>
+                <ul style="list-style: none; margin-bottom: 1rem;">
+                    <li><i class="fas fa-check" style="color: var(--primary-medium);"></i> Apparel & Footwear</li>
+                    <li><i class="fas fa-check" style="color: var(--primary-medium);"></i> Club Fittings</li>
+                    <li><i class="fas fa-check" style="color: var(--primary-medium);"></i> Equipment Rentals</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="coffee" class="section-content">
+        <div class="grid-2">
+            <div class="text-box">
+                <h2>The Coffee Shop</h2>
+                <p>Start your morning right or refuel after the 9th hole. Serving premium roast coffee, espresso, and our famous breakfast sandwiches.</p>
+                <p><strong>Don't miss the "Steakon" Burger for lunch!</strong></p>
+            </div>
+            <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=800&q=80');"></div>
+        </div>
+    </section>
+
+    <section id="about" class="section-content">
+        <h2 class="section-title">About Us</h2>
+        
+        <div class="about-split">
+            <div class="fading-video-container">
+                <video class="about-video" muted playsinline loop>
+                    <source src="https://agatebeachgolf.net/wp-content/uploads/2022/03/PXL_20211019_001416354.LS_-1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div class="about-text">
+                <p>
+                    Agate Beach Golf Course was designed by Frank Stenzel Sr. in 1931. It started as a humble layout on the Oregon coast and has grown into a community staple.
+                </p>
+                <p>
+                    Since 1960, the Martin family has been the steward of this beautiful course. Our mission is to provide an inclusive, friendly, and high-quality golf experience for locals and visitors alike.
+                </p>
+
+                <div class="stats-container" id="stats-section">
+                    <div class="stat-box">
+                        <span class="stat-number" data-target="95">0</span>
+                        <span class="stat-label">Years Open</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number" data-target="3002">0</span>
+                        <span class="stat-label">Yards</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number" data-target="9">0</span>
+                        <span class="stat-label">Holes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section-content">
+        <h2 class="section-title">Visit Us</h2>
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <div>
+                    <h3>Get In Touch</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div><strong>Address:</strong><br>4100 N Coast Hwy<br>Newport, OR 97365</div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div><strong>Phone:</strong><br>(541) 265-7331</div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div><strong>Email:</strong><br>info@agatebeachgolf.net</div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div><strong>Hours:</strong><br>Open 7 Days a Week<br>Check Pro Shop for seasonal times</div>
+                    </div>
+                </div>
+
+                <div class="facebook-widget">
+                    <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAgatebeachgolf&tabs=timeline%2Cphotos&width=500&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="100%" height="500" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2833.676792845645!2d-124.05767668446466!3d44.65958097909965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54c1d7a0f0f0f0f1%3A0x0!2zNDTCsDM5JzM0LjUiTiAxMjTCsDAzJzIwLjUiVw!5e0!3m2!1sen!2sus!4v1678888888888!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Agate Beach Golf Course. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Mobile Menu
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const links = document.querySelectorAll('.nav-links a');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-active');
+            hamburger.classList.toggle('toggle');
+        });
+
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('nav-active');
+                hamburger.classList.remove('toggle');
+            });
+        });
+
+        // STATS ANIMATION
+        const statsSection = document.getElementById('stats-section');
+        const statNumbers = document.querySelectorAll('.stat-number');
+        let started = false; 
+
+        function startCount(el) {
+            const target = +el.getAttribute('data-target');
+            const duration = 2000; 
+            const increment = target / (duration / 20); 
+            
+            let current = 0;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    el.innerText = target;
+                    clearInterval(timer);
+                } else {
+                    el.innerText = Math.ceil(current);
+                }
+            }, 20);
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !started) {
+                    statNumbers.forEach(num => startCount(num));
+                    started = true;
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(statsSection);
+
+        // VIDEO AUTOPLAY LOGIC
+        const video = document.querySelector('.about-video');
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    video.play().catch(e => console.log("Autoplay blocked by browser policy"));
+                } else {
+                    video.pause();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        videoObserver.observe(video);
+    </script>
+</body>
+</html>
