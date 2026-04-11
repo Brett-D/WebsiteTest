@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/fab_capture"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/ic_capture"
+        android:background="@drawable/floating_button_bg"
+        android:contentDescription="@string/capture_button_desc"
+        android:elevation="6dp"
+        android:padding="14dp"
+        android:scaleType="fitCenter" />
+
+</FrameLayout>

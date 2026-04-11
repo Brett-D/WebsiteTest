@@ -1,0 +1,11 @@
+# Android/Gradle build artifacts
+ScreenTextCopier/.gradle/
+ScreenTextCopier/build/
+ScreenTextCopier/app/build/
+ScreenTextCopier/local.properties
+ScreenTextCopier/.idea/
+*.iml
+*.apk
+*.aab
+*.ap_
+*.dex

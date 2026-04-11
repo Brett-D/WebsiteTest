@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screen Text Copier</string>
+    <string name="app_description">Capture any text on your screen with OCR. Tap the floating button to scan, long-press to view your clipboard history.</string>
+
+    <!-- Main activity -->
+    <string name="btn_start">Start Floating Button</string>
+    <string name="btn_stop">Stop Service</string>
+    <string name="status_idle">Ready — tap Start to begin</string>
+    <string name="status_running">✓ Floating button is active</string>
+    <string name="status_stopped">Service stopped</string>
+    <string name="status_requesting_overlay">Requesting overlay permission…</string>
+    <string name="status_requesting_notifications">Requesting notification permission…</string>
+    <string name="status_requesting_capture">Requesting screen capture permission…</string>
+    <string name="status_permission_denied">Permission denied — cannot capture screen</string>
+
+    <string name="instructions">
+        How to use:\n
+        \n• Tap the floating button to capture text from your screen\n
+        • Long-press the floating button to open clipboard history\n
+        • Tap an item in the list to copy it\n
+        • Long-press an item to select a portion of the text\n
+        • Drag the floating button to reposition it
+    </string>
+
+    <!-- Floating button -->
+    <string name="capture_button_desc">Capture screen text</string>
+
+    <!-- Clipboard overlay -->
+    <string name="clipboard_title">Clipboard History</string>
+    <string name="clipboard_empty">No items yet. Tap the floating button to capture text.</string>
+    <string name="clear_all">Clear all</string>
+    <string name="close">Close</string>
+    <string name="thumbnail_desc">Capture thumbnail</string>
+
+    <!-- Text selection overlay -->
+    <string name="select_text_title">Select Text</string>
+    <string name="copy_selected">Copy Selected Text</string>
+</resources>
