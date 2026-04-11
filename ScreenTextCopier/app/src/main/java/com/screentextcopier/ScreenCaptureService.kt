@@ -19,8 +19,11 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.util.DisplayMetrics
 import android.view.WindowManager
+import android.view.WindowMetrics
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.screentextcopier.model.ClipboardItem
@@ -107,14 +110,25 @@ class ScreenCaptureService : Service() {
         }
 
         val wm = getSystemService(WINDOW_SERVICE) as WindowManager
-        val display = wm.defaultDisplay
-        val metrics = DisplayMetrics()
-        @Suppress("DEPRECATION")
-        display.getRealMetrics(metrics)
 
-        val width = metrics.widthPixels
-        val height = metrics.heightPixels
-        val density = metrics.densityDpi
+        val width: Int
+        val height: Int
+        val density: Int
+
+        if (VERSION.SDK_INT >= VERSION_CODES.R) {
+            val windowMetrics: WindowMetrics = wm.currentWindowMetrics
+            val bounds = windowMetrics.bounds
+            width = bounds.width()
+            height = bounds.height()
+            density = resources.displayMetrics.densityDpi
+        } else {
+            val metrics = DisplayMetrics()
+            @Suppress("DEPRECATION")
+            wm.defaultDisplay.getRealMetrics(metrics)
+            width = metrics.widthPixels
+            height = metrics.heightPixels
+            density = metrics.densityDpi
+        }
 
         imageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, 2)
 

@@ -263,12 +263,15 @@ class FloatingButtonService : Service() {
         val copyBtn = textOverlay.findViewById<View>(R.id.btn_copy_selection)
         copyBtn.setOnClickListener {
             // Copy whatever is currently selected (or the full text)
+            val fullText = item.text ?: ""
             val selectedStart = selectableText.selectionStart
             val selectedEnd = selectableText.selectionEnd
-            val selectedText = if (selectedStart >= 0 && selectedEnd > selectedStart) {
-                item.text.substring(selectedStart, selectedEnd)
+            val selectedText = if (selectedStart >= 0 && selectedEnd > selectedStart
+                && selectedStart <= fullText.length && selectedEnd <= fullText.length
+            ) {
+                fullText.substring(selectedStart, selectedEnd)
             } else {
-                item.text
+                fullText
             }
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             clipboard.setPrimaryClip(ClipData.newPlainText("Selected Text", selectedText))
