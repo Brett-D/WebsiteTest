@@ -47,11 +47,20 @@ jobs:
           mkdir -p release
           cp app/build/outputs/apk/debug/app-debug.apk release/ScreenTextCopier-debug.apk
 
+      - name: Get version info
+        id: version
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          RUN_NUM=${{ github.run_number }}
+          echo "tag=v1.0.0-debug.${RUN_NUM}" >> "$GITHUB_OUTPUT"
+          echo "name=Screen Text Copier v1.0.0 Build #${RUN_NUM}" >> "$GITHUB_OUTPUT"
+          echo "sha=${SHORT_SHA}" >> "$GITHUB_OUTPUT"
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.0-debug
-          name: "Screen Text Copier v1.0.0 (Debug)"
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: "${{ steps.version.outputs.name }}"
           body: |
             ## Screen Text Copier - Debug APK
 
@@ -71,4 +80,4 @@ jobs:
           files: ScreenTextCopier/release/ScreenTextCopier-debug.apk
           draft: false
           prerelease: true
-          make_latest: true
+          make_latest: false
