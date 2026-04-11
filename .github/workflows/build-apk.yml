@@ -1,0 +1,83 @@
+name: Build & Release APK
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ScreenTextCopier/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ScreenTextCopier
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('ScreenTextCopier/**/*.gradle*', 'ScreenTextCopier/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Rename APK
+        run: |
+          mkdir -p release
+          cp app/build/outputs/apk/debug/app-debug.apk release/ScreenTextCopier-debug.apk
+
+      - name: Get version info
+        id: version
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          RUN_NUM=${{ github.run_number }}
+          echo "tag=v1.0.0-debug.${RUN_NUM}" >> "$GITHUB_OUTPUT"
+          echo "name=Screen Text Copier v1.0.0 Build #${RUN_NUM}" >> "$GITHUB_OUTPUT"
+          echo "sha=${SHORT_SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: "${{ steps.version.outputs.name }}"
+          body: |
+            ## Screen Text Copier - Debug APK
+
+            Download `ScreenTextCopier-debug.apk` below and install it on your Android device (API 26+ / Android 8.0+).
+
+            ### Installation
+            1. Download the APK file from the **Assets** section below
+            2. On your phone, go to **Settings → Security → Install unknown apps** and allow your browser
+            3. Open the downloaded APK to install
+            4. Launch **Screen Text Copier** and grant the required permissions
+
+            ### Features
+            - 📷 Tap the floating button to capture and OCR any text on screen
+            - 📋 Long-press the floating button to view clipboard history
+            - ✂️ Long-press a clipboard item to select a portion of text
+            - 🔄 Drag the floating button anywhere on screen
+          files: ScreenTextCopier/release/ScreenTextCopier-debug.apk
+          draft: false
+          prerelease: true
+          make_latest: false
